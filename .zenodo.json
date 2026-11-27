@@ -1,0 +1,30 @@
+{
+  "title": "Counterfactual satisfiability with two endogenous variables",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "publication_date": "2026-11-27",
+  "creators": [
+    {
+      "name": "DannyExperiments"
+    }
+  ],
+  "description": "Linear and basic counterfactual satisfiability are NP-complete at two endogenous variables and polynomial-time at one, with a supplied common finite domain.\n\nThe reduction packs Boolean variables into separate intervention inputs of a single response function. A Boolean event uses one shared exogenous draw and asks whether the encoded formula holds across those interventions. One comparison requires the event to have probability one. A satisfying Boolean assignment yields a deterministic response table. For the upper bounds, the response-table representation gives sparse rational certificates at two variables and a direct linear program at one.\n\nThis answers the number-of-variables question in Ganian, Gründel and Wietheger, ICML 2026. Earlier results give unrestricted lower bounds and fixed-parameter tractability in the combined domain and variable counts. The reduction here keeps the variable count at two. Exact replay checks 65,536 truth tables, a coloring variant and all eight vertices of the worked response cube. The input uses a set of weak comparisons; Boolean operations appear inside events. External peer review is pending.\n\nUnder human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.",
+  "keywords": [
+    "counterfactual satisfiability",
+    "structural causal models",
+    "parameterized complexity",
+    "NP-completeness",
+    "response functions",
+    "Pearl causal hierarchy"
+  ],
+  "access_right": "open",
+  "license": "other-closed",
+  "notes": "All rights reserved. Publicly downloadable files are supplied without a repository-wide reuse license.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/releases/tag/v1.0.0",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

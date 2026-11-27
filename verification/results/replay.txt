@@ -1,0 +1,2 @@
+16 valuation types; 65536 Boolean event truth tables, and 64 coloring systems replayed.
+All eight worked responses checked; 001, 101 and 111 accepted.

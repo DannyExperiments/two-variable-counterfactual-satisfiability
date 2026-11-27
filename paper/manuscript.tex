@@ -1,0 +1,62 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[margin=.78in,top=.72in,bottom=.73in]{geometry}
+\usepackage{amssymb}
+\DeclareFontShape{OMX}{cmex}{m}{n}{<->cmex10}{}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{9}{9}{8}{8}
+\DeclareMathSizes{10.95}{10.95}{8}{8}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Counterfactual satisfiability with two endogenous variables}}
+\newtheorem{theorem}{Theorem}
+\title{Counterfactual satisfiability with two endogenous variables}
+\date{27 November 2026}
+\begin{document}
+\begin{abstract}
+With a supplied finite common domain of unbounded size, linear and basic counterfactual satisfiability are NP-complete for two endogenous variables and polynomial-time for one. A reduction uses different intervention values to address separate entries in a single response function. One probability-one comparison suffices. Consequently, parameterization by the endogenous-variable count alone admits an XP algorithm exactly if \(\mathrm{P}=\mathrm{NP}\).
+\end{abstract}
+\maketitle
+
+\section{Model and result}
+Ganian, Gr\"undel and Wietheger~\cite[\S6, third item]{GGW} ask whether linear counterfactual satisfiability admits an XP algorithm in the number \(n\) of endogenous variables. As in their input model, the variables have a common finite domain \(D\), supplied as a list of \(d\) values. A recursive structural causal model gives a single order of the endogenous variables and a finite exogenous distribution. Fixing an exogenous draw makes each endogenous variable a deterministic function of its predecessors. An intervention replaces the equations of the assigned variables by the assigned constants.
+
+A counterfactual event can apply Boolean conjunction and negation to propositions evaluated under different interventions. The same exogenous draw is used in each of these evaluations. The instance requires a set of weak inequalities between probability terms in the basic language, and between sums of probability terms in the linear language. Thus the inequalities at the outer level must all hold. This is the syntax in Sections~2--3 of~\cite{GGW}, including its distinction between the source's satisfiability problem and arbitrary Boolean combinations of inequalities. Disjunction inside an event is available via conjunction and negation.
+
+\begin{theorem}
+For an explicitly supplied common domain \(D\), the basic and linear counterfactual satisfiability problems are in \(\mathrm{P}\) for one endogenous variable and are \(\mathrm{NP}\)-complete for exactly two. The hardness at two variables uses one basic comparison of probabilities and still holds with the variable order prescribed. Both problems are in \(\mathrm{XP}\) for the number of endogenous variables alone exactly if \(\mathrm{P}=\mathrm{NP}\).
+\end{theorem}
+
+\section{A single comparison suffices}
+Take a Boolean CNF \(\phi(z_1,\ldots,z_m)\), with \(m\geq1\). Give both \(X\) and \(Y\) the common domain consisting of the distinct symbols \(0,1,i_1,\ldots,i_m\). Let \(E_j=[X=i_j](Y=1)\). Replace each occurrence of \(z_j\) in \(\phi\) by \(E_j\), producing a counterfactual event \(F\). Let \(T=\neg(E_1\wedge\neg E_1)\). The instance consists of the comparison
+\[
+                       \Pr(T)\leq\Pr(F).
+\]
+Every exogenous draw has a definite truth value for each \(E_j\). If a model satisfies the comparison, \(\Pr(F)=1\), so a draw of positive weight satisfies \(F\). The truth values of \(E_j\) at that draw satisfy \(\phi\). This direction allows either causal order and any responses in \(D\).
+
+Conversely, take a satisfying assignment \(z\). Use a deterministic model ordered \(X,Y\), set the unmanipulated \(X\) to \(0\), and define the equation of \(Y\) by \(Y=f(X)\), where \(f(i_j)\) equals \(z_j\) and the other entries can equal \(0\). This model satisfies \(F\) under its only draw. The construction has polynomial size, uses both endogenous variables, and works with \(X,Y\) supplied as the order.
+
+The same response-table idea gives a coloring variant. With three designated output values, require that each vertex intervention gives one of the three colors with probability one. For every edge and every color, require probability zero that both endpoint interventions give that color in the same draw. The conjunction of these finitely many probability-one requirements holds at some draw. Its outputs form a proper coloring, and a proper coloring defines a deterministic model as above.
+
+\section{Certificates and the one-variable algorithm}
+Fix an order of \(n\) endogenous variables. A latent draw is represented by a tuple of deterministic tables, the \(j\)-th of which has \(d^{j-1}\) entries by~\cite[Lemma~5.2]{GGW}. The total number of table entries is at most \(n d^{n-1}\). Every tuple defines a deterministic response, and every mixture of such tuples with the same order defines an exogenous law for a recursive model.
+
+Let \(M\) be the number of distinct event expressions under probability symbols. Record each table tuple as a vector in \(\{0,1\}^M\) given by the truth values of those events. Each entry is computed by evaluating its interventions in the specified order. A probability vector obtained by a model for that order belongs to the convex hull of all such vectors. By Carath\'eodory's theorem, at most \(M+1\) deterministic tuples suffice to represent it. For fixed selected tuples, the input inequalities and the probability-simplex constraints are rational linear inequalities in their weights. A nonempty feasible polytope is bounded and has a vertex with rational coordinates of polynomial bit length by the determinant bound for a system of polynomially many rational coefficients of polynomial bit length. Thus we can guess the order, at most \(M+1\) tables and their rational weights and check the input in polynomial time for each fixed \(n\). This proves membership in \(\mathrm{NP}\) for the two-variable slice.
+
+With just one endogenous variable, a latent draw enters the model only through its unmanipulated value \(x\in D\). An empty intervention preserves that value and a nonempty valid intervention fixes it. One LP variable for each \(x\in D\) therefore suffices. For each probability term evaluate its event at every \(x\), then use the weights of the event's true cases. The source's input consists of a set of inequalities, so this LP decides satisfiability in polynomial time.
+
+\section{The uniform parameterization}
+An XP algorithm in \(n\) gives a polynomial algorithm for the \(n=2\) reduction above. Conversely, if \(\mathrm{P}=\mathrm{NP}\), apply that equality to a padded version of the language. An input of length \(L\) may be padded to \((L+2)^{Cn+C}\) for a fixed sufficiently large integer \(C\). Require the stated padding length as part of a uniform padded language, and verify its encoding and length in time polynomial in the padded length. The table certificate and its verification then have polynomial bounds in this length, with a single exponent for all \(n\). Hence the padded language is in \(\mathrm{NP}\), and a polynomial-time decider gives the claimed XP algorithm in the original length.
+
+\section{Prior results and scope}
+The source's response-table lemma and its LP show fixed-parameter tractability in \(n+d\)~\cite[Theorem~5.3]{GGW}. Earlier work proves causal and counterfactual hardness with an unrestricted number of variables under various related syntaxes~\cite{H,MII,D}. Halpern's classical deterministic lower bound uses a variable for each propositional symbol. Here the entries indexed by interventions take that role. The parameterized obstruction uses a domain that grows with the instance, a single event with cross-world Boolean operations, and no arithmetic multiplication or compact summation. The one-variable tractability statement is for the source's basic and linear conjunction-only syntax.
+
+\section*{Research disclosure}
+Under human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.
+
+\begin{thebibliography}{9}
+\bibitem{GGW} R. Ganian, M. Gr\"undel and S. Wietheger, Gateways to Tractability for Satisfiability in Pearl's Causal Hierarchy, ICML 2026, PMLR 306, 32958--32968. \href{https://proceedings.mlr.press/v306/ganian26a.html}{Proceedings}.
+\bibitem{H} J. Y. Halpern, Axiomatizing Causal Reasoning, J. Artif. Intell. Res. 12 (2000), 317--337. \href{https://arxiv.org/abs/cs/0005030}{Author preprint}.
+\bibitem{MII} M. Moss\'e, D. Ibeling and T. Icard, Is Causal Reasoning Harder than Probabilistic Reasoning?, Rev. Symb. Log. 17 (2024), 106--131. \href{https://arxiv.org/abs/2111.13936}{Author preprint}.
+\bibitem{D} J. D\"orfler, B. van der Zander, M. Bl\"aser and M. Li\'skiewicz, From Probability to Counterfactuals: The Increasing Complexity of Satisfiability in Pearl's Causal Hierarchy. \href{https://arxiv.org/abs/2405.07373}{arXiv:2405.07373}.
+\end{thebibliography}
+\end{document}

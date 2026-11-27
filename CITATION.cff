@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Cite this version of the research release."
+title: "Counterfactual satisfiability with two endogenous variables"
+authors:
+  - name: "DannyExperiments"
+type: software
+version: "1.0.0"
+date-released: 2026-11-27
+repository-code: "https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability"
+keywords:
+  - "counterfactual satisfiability"
+  - "structural causal models"
+  - "parameterized complexity"
+  - "NP-completeness"
+  - "response functions"
+  - "Pearl causal hierarchy"
+doi: "10.5281/zenodo.24572845"
+url: "https://doi.org/10.5281/zenodo.24572845"
+preferred-citation:
+  type: software
+  title: "Counterfactual satisfiability with two endogenous variables"
+  authors:
+    - name: "DannyExperiments"
+  version: "1.0.0"
+  date-released: 2026-11-27
+  doi: "10.5281/zenodo.24572845"
+  url: "https://doi.org/10.5281/zenodo.24572845"
+  repository-code: "https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability"

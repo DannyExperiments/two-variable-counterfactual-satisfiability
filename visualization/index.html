@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Counterfactual response cube</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101c30;color:#f5f8fd;font:16px/1.5 system-ui}main{max-width:760px;margin:auto;padding:18px}h1{margin:0;font-size:clamp(1.55rem,5vw,2.2rem)}p{color:#cfdef2;margin:7px 0 14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}label{display:grid;gap:6px;padding:10px;background:#1b2e4b;border-radius:8px}input,select{min-width:0;width:100%;min-height:38px;accent-color:#78dcd1}select{background:#101c30;color:#f5f8fd;border:1px solid #90a5c2;border-radius:5px;font:inherit}canvas{display:block;width:100%;height:270px;margin:12px 0;background:#1b2e4b;border-radius:10px}.rows{display:grid;grid-template-columns:1fr auto;gap:5px 16px;margin:12px 0;padding:12px;border-radius:8px;background:#1b2e4b}.rows dt,.rows dd{margin:0}.pass{color:#78dcd1}.fail{color:#ffac97}.verdict{font-size:1.14rem;font-weight:700}
+</style>
+<main>
+<h1>Counterfactual response cube</h1>
+<p>Each entry records whether Y equals 1 under the selected setting of X.</p>
+<div class="grid">
+<label>Response at i₁<select id="b1"><option value="0">0</option><option value="1" selected>1</option></select></label>
+<label>Response at i₂<select id="b2"><option value="0">0</option><option value="1">1</option></select></label>
+<label>Response at i₃<select id="b3"><option value="0">0</option><option value="1" selected>1</option></select></label>
+</div>
+<canvas id="scene" aria-label="Response cube, with the selected assignment outlined">The clause outcomes appear below.</canvas>
+<label>Rotate view<input id="angle" type="range" min="0" max="360" value="25"></label>
+<p id="verdict" class="verdict" aria-live="polite">101 satisfies every clause.</p>
+<dl class="rows">
+<dt>E₁ or not E₂</dt><dd id="c1"></dd>
+<dt>E₂ or E₃</dt><dd id="c2"></dd>
+<dt>Not E₁ or E₃</dt><dd id="c3"></dd>
+</dl>
+<p>Green vertices satisfy every clause. The outline marks your selection. A deterministic model uses one vertex, so a satisfying vertex gives event probability one.</p>
+</main>
+<script>
+"use strict";
+const el=id=>document.getElementById(id);
+const canvas=el("scene"),ctx=canvas.getContext("2d");
+const vertices=Array.from({length:8},(_,i)=>[i>>2,(i>>1)&1,i&1]);
+const edges=[];
+for(let i=0;i<vertices.length;i++)for(let j=i+1;j<vertices.length;j++){
+  const flips=vertices[i].filter((value,k)=>value!==vertices[j][k]).length;
+  if(flips===1)edges.push([i,j]);
+}
+const clauses=([a,b,c])=>[Boolean(a||!b),Boolean(b||c),Boolean(!a||c)];
+const passes=bits=>clauses(bits).every(Boolean);
+function draw(){
+  const bits=["b1","b2","b3"].map(id=>Number(el(id).value));
+  const outcomes=clauses(bits),selected=4*bits[0]+2*bits[1]+bits[2];
+  for(let i=0;i<outcomes.length;i++){
+    const cell=el("c"+(i+1));
+    cell.textContent=outcomes[i]?"Pass":"Fail";
+    cell.className=outcomes[i]?"pass":"fail";
+  }
+  const all=outcomes.every(Boolean);
+  el("verdict").textContent=bits.join("")+(all?" satisfies every clause.":" fails at least one clause.");
+  el("verdict").className="verdict "+(all?"pass":"fail");
+  const width=canvas.clientWidth,height=canvas.clientHeight,pixel=window.devicePixelRatio||1;
+  canvas.width=width*pixel;canvas.height=height*pixel;ctx.scale(pixel,pixel);
+  const angle=Number(el("angle").value)*Math.PI/180, tilt=.4+.14*Math.cos(angle);
+  const points=vertices.map(bits=>{
+    let [x,y,z]=bits.map(b=>1.68*(b-.5));
+    [x,z]=[x*Math.cos(angle)+z*Math.sin(angle),z*Math.cos(angle)-x*Math.sin(angle)];
+    [y,z]=[y*Math.cos(tilt)-z*Math.sin(tilt),y*Math.sin(tilt)+z*Math.cos(tilt)];
+    const scale=Math.min(width*1.1,352)/(4.7-z);
+    return [width/2+scale*x,height/2-scale*y,z];
+  });
+  ctx.lineWidth=2.2;ctx.strokeStyle="#90a5c2";
+  for(const [i,j] of edges){
+    ctx.beginPath();ctx.moveTo(...points[i].slice(0,2));ctx.lineTo(...points[j].slice(0,2));ctx.stroke();
+  }
+  for(const i of [...vertices.keys()].sort((a,b)=>points[a][2]-points[b][2])){
+    const [x,y,z]=points[i],radius=8+1.8*z;
+    ctx.beginPath();ctx.arc(x,y,radius,0,2*Math.PI);
+    ctx.fillStyle=passes(vertices[i])?"#78dcd1":"#7c8fae";ctx.fill();
+    if(i===selected){
+      ctx.beginPath();ctx.arc(x,y,radius+5,0,2*Math.PI);ctx.strokeStyle="#ffffff";ctx.stroke();
+    }
+  }
+}
+for(const id of ["b1","b2","b3","angle"])el(id).addEventListener("input",draw);
+window.addEventListener("resize",draw);
+draw();
+</script></html>
