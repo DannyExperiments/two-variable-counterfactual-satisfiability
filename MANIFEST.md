@@ -2,6 +2,7 @@
 
 These files are covered by the repository SHA-256 ledger.
 
+- `.github/workflows/lean.yml`
 - `.github/workflows/pdf.yml`
 - `.github/workflows/replay.yml`
 - `.github/workflows/verify.yml`
@@ -21,6 +22,9 @@ These files are covered by the repository SHA-256 ledger.
 - `STATUS.md`
 - `audits/public_safe_reports/LITERATURE.md`
 - `audits/public_safe_reports/MATHEMATICS.md`
+- `formalization/Intervention.lean`
+- `formalization/README.md`
+- `formalization/expected-axioms.txt`
 - `paper/BUILD.md`
 - `paper/manuscript.pdf`
 - `paper/manuscript.tex`

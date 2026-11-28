@@ -1,5 +1,6 @@
 # Counterfactual satisfiability with two endogenous variables
 
+[![Lean · response-table comparison](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/lean.yml)
 [![Repository verification](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/verify.yml) [![Replay verification](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/replay.yml) [![PDF build](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/pdf.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/two-variable-counterfactual-satisfiability/actions/workflows/pdf.yml) [![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572845.svg)](https://doi.org/10.5281/zenodo.24572845)
 
 Linear and basic counterfactual satisfiability are NP-complete at two endogenous variables and polynomial-time at one, with a supplied common finite domain. An XP algorithm parameterized by endogenous-variable count alone exists exactly if P = NP.
@@ -30,3 +31,7 @@ Sparse mixtures of deterministic tables give polynomial certificates for two var
 ## Cite
 
 DannyExperiments. *Counterfactual satisfiability with two endogenous variables*. Version 1.0.0, 27 November 2026. [Version DOI](https://doi.org/10.5281/zenodo.24572845).
+
+## Lean verification
+
+For every Boolean formula over intervention indices and two distinct designated outcomes, satisfiability is equivalent to the existence of a positive-total finite integer-weighted mixture of response tables making the translated event have full mass. Deterministic tables suffice in the forward direction. General finite exogenous probabilities, polynomial bit lengths and membership remain in the paper. [Source and replay](formalization/README.md)
